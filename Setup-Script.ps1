@@ -128,9 +128,6 @@ do {
 		New-PSDrive -Name HKLM -PSProvider Registry -Root Registry::HKEY_LOCAL_MACHINE
 		New-PSDrive -Name HKCU -PSProvider Registry -Root Registry::HKEY_CURRENT_USER
 		
-		#Adds printer for black/white
-		rundll32 printui.dll,PrintUIEntry /in /q /n "\\w2k8dfeqt\DF_BW_Queue"
-				
 		New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\services\CSC\Parameters"  -Name FormatDatabase -Value 1 -Type DWord
 		New-ItemProperty "HKCU:\Software\Microsoft\Office\15.0\Outlook\Preferences" -Name EmptyTrash -Value 1 -Type DWord
 		New-ItemProperty "HKCU:\Software\Microsoft\Office\15.0\Common\Internet" -Name UseOnlineContent -Value 2 -Type DWord
