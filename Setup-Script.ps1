@@ -25,11 +25,11 @@ do {
         "Y"
         {            
 		Import-Module ActiveDirectory
-		get-adcomputer $env:COMPUTERNAME | Move-ADObject -TargetPath 'OU=Laptops,OU=Deerfield,OU=Corporate,OU=Domain Users,DC=americas,DC=bgsw,DC=com' -Credential ""
+		get-adcomputer $env:COMPUTERNAME | Move-ADObject -TargetPath 'DC=example,DC=com' -Credential ""
 
 		$User = New-Object System.Security.Principal.NTAccount($env:UserName)
 		$sid = $User.Translate([System.Security.Principal.SecurityIdentifier]).value
-   	$shell = new-object -com "Shell.Application"  
+   		$shell = new-object -com "Shell.Application"  
 		
 		New-PSDrive -Name HKU -PSProvider Registry -Root Registry::HKEY_USERS
 		New-PSDrive -Name HKLM -PSProvider Registry -Root Registry::HKEY_LOCAL_MACHINE
@@ -70,7 +70,7 @@ do {
 		fsutil behavior set DisableDeleteNotify 0
  	 	powercfg.exe /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 		
-    #Disables UAC, Creates new registry property for disabling IPv6 then deletes SchedulesDefrag schedule. 	
+	       #Disables UAC, Creates new registry property for disabling IPv6 then deletes SchedulesDefrag schedule. 	
 		New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -PropertyType DWord -Value 0 -Force
 		New-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\' `
      			-Name  'DisabledComponents' -Value '0xffffffff' -PropertyType 'DWord'
@@ -122,7 +122,7 @@ do {
 
 		$User = New-Object System.Security.Principal.NTAccount($env:UserName)
 		$sid = $User.Translate([System.Security.Principal.SecurityIdentifier]).value
-   	$shell = new-object -com "Shell.Application"  
+   		$shell = new-object -com "Shell.Application"  
 		
 		New-PSDrive -Name HKU -PSProvider Registry -Root Registry::HKEY_USERS
 		New-PSDrive -Name HKLM -PSProvider Registry -Root Registry::HKEY_LOCAL_MACHINE
@@ -160,7 +160,7 @@ do {
 		fsutil behavior set DisableDeleteNotify 0
      	 	powercfg.exe /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 	
-	    #Disables UAC, Creates new registry property for disabling IPv6 then deletes SchedulesDefrag schedule. 	
+	       #Disables UAC, Creates new registry property for disabling IPv6 then deletes SchedulesDefrag schedule. 	
 		New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -PropertyType DWord -Value 0 -Force
 		New-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters\' `
      			-Name  'DisabledComponents' -Value '0xffffffff' -PropertyType 'DWord'
