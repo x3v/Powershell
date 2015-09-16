@@ -1,6 +1,6 @@
 
 write-host "New Computer Setup Script V1.3"
-write-host "Please contact Jonathan.Zevallos@beamsuntory.com if there are any issues."
+write-host "Please contact jonzevallos@gmail.com if there are any issues."
 
 do {
     do {
