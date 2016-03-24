@@ -146,6 +146,35 @@ do {
 	New-ItemProperty "HKU:\$sid\Software\SAP\SAPGUI Front\SAP Frontend Server\Security\"  -Name DefaultAction -Value 0 -Type DWord
 	Stop-Process -processname sapsettingsshow
 	
+	
+        #Appends and creates an Excel tracking document. Pulls the Hostname, OS, Serial number, Username, Model and date/time the script was run. 
+        $servers = Get-WmiObject Win32_OperatingSystem |  Select-Object CSName | ft -HideTableHeaders | Out-String
+        $servers = $servers.Trim()
+
+        $output = '\\remoteserver\hardware tracking\Tracksheet.csv'
+        $Results = @()
+
+        foreach($server in $servers)
+        {
+        $bios = Get-WmiObject -computername $server Win32_bios
+        $OS = Get-WmiObject -computername $server Win32_OperatingSystem
+        $computer = Get-WmiObject -ComputerName $server Win32_ComputerSystem
+        $date = Get-Date
+        $user = whoami
+
+        $props = @{
+            Hostname =  $OS.CSName
+            OS = $OS.Caption
+            Serial = $bios.SerialNumber
+            User = $user
+            Model =  $computer.Model
+            Date = $date.DateTime
+         }
+  
+        $Results += New-Object PSObject -Property $Props
+        }
+        $Results | Export-Csv $Output -NoTypeInformation -Append
+	
 	#Update McAfee
 	Start-Process "C:\Program Files (x86)\McAfee\VirusScan Enterprise\mcupdate.exe"
 	
