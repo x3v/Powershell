@@ -2,7 +2,7 @@
 
 <#
 Set-Password function set to randomize last variable string without special characters. 
-Making this so the ServiceDesk can easily identify compromised passwords with $HUB variable with a randomized set of 
+Making this so the ServiceDesk can easily identify compromised passwords with $START variable with a randomized set of 
 characters. 
 
 Normally the script uses Web.Security.Membership for password generation. This was replaced with 
@@ -16,7 +16,7 @@ function Set-Password{
     param
     (
         [int] $len = 6,
-        [string] $HUB = "RanDom95",
+        [string] $START = "RanDom95",
         [string] $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     )
         $bytes = new-object "System.Byte[]" $len
@@ -28,7 +28,7 @@ function Set-Password{
         {
         $result += $chars[ $bytes[$i] % $chars.Length ]	
 }
-    $NewPassword = $HUB + $result
+    $NewPassword = $START + $result
     [string]$NewPassword
 }
 
@@ -97,7 +97,7 @@ function Set-OSCADAccountPassword
 		[switch]$Recurse,
 		[Parameter(Mandatory=$false,Position=3)]
         #Edited to include time. Running file multiple times a day may occur. 
-		[String]$CSVPath="\\it-aws-data\it_fs\it_ops\Security\Incidents\Password Resets\Result$(Get-Date -Format "MMddyyyyHHmmss").csv"
+		[String]$CSVPath="output.csv"
 	)
 	process
 	{
